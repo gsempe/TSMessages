@@ -49,6 +49,7 @@ static NSMutableDictionary *_notificationDesign;
 
 @property (nonatomic, assign) CGFloat textSpaceLeft;
 @property (nonatomic, assign) CGFloat textSpaceRight;
+@property(nonatomic, assign) NSTextAlignment textAlignment;
 
 @property (copy) void (^callback)();
 @property (copy) void (^buttonCallback)();
@@ -180,10 +181,26 @@ canBeDismissedByUser:(BOOL)dismissingEnabled
         UIColor *fontColor = [UIColor colorWithHexString:[current valueForKey:@"textColor"]
                                                    alpha:1.0];
         
+        self.textAlignment = ({
+            // Only supported values are listed
+            NSDictionary *lookupAlignment = @{@"NSTextAlignmentLeft": @(NSTextAlignmentLeft),
+                                              @"NSTextAlignmentCenter": @(NSTextAlignmentCenter),
+                                              @"NSTextAlignmentRight": @(NSTextAlignmentRight)
+                                              };
+            NSNumber *alignmentNumber = [lookupAlignment valueForKey:[current valueForKey:@"textAlignment"]];
+            NSTextAlignment alignment = NSTextAlignmentLeft;
+            if (nil!=alignmentNumber) {
+                alignment = alignmentNumber.integerValue;
+            }
+            alignment;
+        });
         
         self.textSpaceLeft = 2 * TSMessageViewPadding;
         if (image) self.textSpaceLeft += image.size.width + 2 * TSMessageViewPadding;
         
+        // Default textSpaceRight
+        self.textSpaceRight = TSMessageViewPadding;
+
         // Set up title label
         _titleLabel = [[UILabel alloc] init];
         [self.titleLabel setText:title];
@@ -201,6 +218,7 @@ canBeDismissedByUser:(BOOL)dismissingEnabled
                                                     [[current valueForKey:@"shadowOffsetY"] floatValue])];
         self.titleLabel.numberOfLines = 0;
         self.titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
+        self.titleLabel.textAlignment = self.textAlignment;
         [self addSubview:self.titleLabel];
         
         // Set up content label (if set)
@@ -227,6 +245,7 @@ canBeDismissedByUser:(BOOL)dismissingEnabled
             [self.contentLabel setShadowOffset:self.titleLabel.shadowOffset];
             self.contentLabel.lineBreakMode = self.titleLabel.lineBreakMode;
             self.contentLabel.numberOfLines = 0;
+            self.contentLabel.textAlignment = self.textAlignment;
             
             [self addSubview:self.contentLabel];
         }
@@ -349,21 +368,31 @@ canBeDismissedByUser:(BOOL)dismissingEnabled
 {
     CGFloat currentHeight;
     CGFloat screenWidth = self.viewController.view.bounds.size.width;
-    
+    CGFloat availableWidth = screenWidth - TSMessageViewPadding - self.textSpaceLeft - self.textSpaceRight;
     
     self.titleLabel.frame = CGRectMake(self.textSpaceLeft,
                                        TSMessageViewPadding,
-                                       screenWidth - TSMessageViewPadding - self.textSpaceLeft - self.textSpaceRight,
+                                       availableWidth,
                                        0.0);
     [self.titleLabel sizeToFit];
+    self.titleLabel.frame = ({ // Adjust width to get alignment applied
+        CGRect newFrame = self.titleLabel.frame;
+        newFrame.size.width = availableWidth;
+        newFrame;
+    });
     
     if ([self.subtitle length])
     {
         self.contentLabel.frame = CGRectMake(self.textSpaceLeft,
                                              self.titleLabel.frame.origin.y + self.titleLabel.frame.size.height + 5.0,
-                                             screenWidth - TSMessageViewPadding - self.textSpaceLeft - self.textSpaceRight,
+                                             availableWidth,
                                              0.0);
         [self.contentLabel sizeToFit];
+        self.contentLabel.frame = ({ // Adjust width to get alignment applied
+            CGRect newFrame = self.contentLabel.frame;
+            newFrame.size.width = availableWidth;
+            newFrame;
+        });
         
         currentHeight = self.contentLabel.frame.origin.y + self.contentLabel.frame.size.height;
     }
