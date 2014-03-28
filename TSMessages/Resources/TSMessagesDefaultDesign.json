@@ -79,11 +79,13 @@
     "online": {
         "textColor": "#FFFFFF",
         "titleFontSize": 14,
+        "textAlignment": "NSTextAlignmentCenter",
         "backgroundColor": "#8AC55C"
     },
     "offline": {
         "textColor": "#FFFFFF",
         "titleFontSize": 14,
+        "textAlignment": "NSTextAlignmentCenter",
         "backgroundColor": "#CE1313"
     }
 }
