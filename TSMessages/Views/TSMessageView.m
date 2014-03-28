@@ -135,6 +135,16 @@ canBeDismissedByUser:(BOOL)dismissingEnabled
                 currentString = @"warning";
                 break;
             }
+            case TSMessageNotificationTypeOnline:
+            {
+                currentString = @"online";
+                break;
+            }
+            case TSMessageNotificationTypeOffline:
+            {
+                currentString = @"offline";
+                break;
+            }
                 
             default:
                 break;

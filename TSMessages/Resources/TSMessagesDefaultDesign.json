@@ -75,5 +75,15 @@
         "textColor": "#FFFFFF",
         "titleFontSize": 14,
         "backgroundColor": "#DD3B41"
+    },
+    "online": {
+        "textColor": "#FFFFFF",
+        "titleFontSize": 14,
+        "backgroundColor": "#8AC55C"
+    },
+    "offline": {
+        "textColor": "#FFFFFF",
+        "titleFontSize": 14,
+        "backgroundColor": "#CE1313"
     }
 }
