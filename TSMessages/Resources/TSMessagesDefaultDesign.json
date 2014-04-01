@@ -77,14 +77,38 @@
         "backgroundColor": "#DD3B41"
     },
     "online": {
+        "borderColor": "#FF0000",
+        "borderHeight": 0,
+        "buttonTitleTextColor": "#FFFFFF",
+        "buttonTitleShadowColor": "#8AC55C",
+        "buttonTitleShadowOffsetX": 0,
+        "buttonTitleShadowOffsetY": 0,
+        "contentFontSize": 14,
+        "contentTextColor": "#FFFFFF",
+        "shadowColor": "#8AC55C",
+        "shadowOffsetX": 0,
+        "shadowOffsetY": 0,
         "textColor": "#FFFFFF",
         "titleFontSize": 14,
+        "titleFontName": "Helvetica-Neue",
         "textAlignment": "NSTextAlignmentCenter",
         "backgroundColor": "#8AC55C"
     },
     "offline": {
+        "borderColor": "#FF0000",
+        "borderHeight": 0,
+        "buttonTitleTextColor": "#FFFFFF",
+        "buttonTitleShadowColor": "#CE1313",
+        "buttonTitleShadowOffsetX": 0,
+        "buttonTitleShadowOffsetY": 0,
+        "contentFontSize": 14,
+        "contentTextColor": "#FFFFFF",
+        "shadowColor": "#CE1313",
+        "shadowOffsetX": 0,
+        "shadowOffsetY": 0,
         "textColor": "#FFFFFF",
         "titleFontSize": 14,
+        "titleFontName": "Helvetica-Neue",
         "textAlignment": "NSTextAlignmentCenter",
         "backgroundColor": "#CE1313"
     }

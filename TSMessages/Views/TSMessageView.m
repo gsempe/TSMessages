@@ -44,8 +44,7 @@ static NSMutableDictionary *_notificationDesign;
 @property (nonatomic, strong) UIImageView *iconImageView;
 @property (nonatomic, strong) UIButton *button;
 @property (nonatomic, strong) UIView *borderView;
-@property (nonatomic, strong) UIImageView *backgroundImageView;
-@property (nonatomic, strong) TSBlurView *backgroundBlurView; // Only used in iOS 7
+@property (nonatomic, strong) UIView *backgroundView;
 
 @property (nonatomic, assign) CGFloat textSpaceLeft;
 @property (nonatomic, assign) CGFloat textSpaceRight;
@@ -164,18 +163,19 @@ canBeDismissedByUser:(BOOL)dismissingEnabled
             self.alpha = 0.0;
             
             // add background image here
-            UIImage *backgroundImage = [[UIImage imageNamed:[current valueForKey:@"backgroundImageName"]] stretchableImageWithLeftCapWidth:0.0 topCapHeight:0.0];
-            _backgroundImageView = [[UIImageView alloc] initWithImage:backgroundImage];
-            self.backgroundImageView.autoresizingMask = (UIViewAutoresizingFlexibleWidth);
-            [self addSubview:self.backgroundImageView];
+            _backgroundView = [[UIView alloc] init];
+            self.backgroundView.autoresizingMask = (UIViewAutoresizingFlexibleWidth);
+            self.backgroundView.backgroundColor = [UIColor colorWithHexString:current[@"backgroundColor"]];
+            self.backgroundView.alpha = 0.9;
+            [self addSubview:self.backgroundView];
         }
         else
         {
-            // On iOS 7 and above use a blur layer instead (not yet finished)
-            _backgroundBlurView = [[TSBlurView alloc] init];
-            self.backgroundBlurView.autoresizingMask = (UIViewAutoresizingFlexibleWidth);
-            self.backgroundBlurView.blurTintColor = [UIColor colorWithHexString:current[@"backgroundColor"]];
-            [self addSubview:self.backgroundBlurView];
+            _backgroundView = [[UIView alloc] init];
+            self.backgroundView.autoresizingMask = (UIViewAutoresizingFlexibleWidth);
+            self.backgroundView.backgroundColor = [UIColor colorWithHexString:current[@"backgroundColor"]];
+            self.backgroundView.alpha = 0.9;
+            [self addSubview:self.backgroundView];
         }
         
         UIColor *fontColor = [UIColor colorWithHexString:[current valueForKey:@"textColor"]
@@ -445,8 +445,8 @@ canBeDismissedByUser:(BOOL)dismissingEnabled
     }
     
     
-    CGRect backgroundFrame = CGRectMake(self.backgroundImageView.frame.origin.x,
-                                        self.backgroundImageView.frame.origin.y,
+    CGRect backgroundFrame = CGRectMake(0,
+                                        0,
                                         screenWidth,
                                         currentHeight);
     
@@ -475,8 +475,7 @@ canBeDismissedByUser:(BOOL)dismissingEnabled
         }
     }
     
-    self.backgroundImageView.frame = backgroundFrame;
-    self.backgroundBlurView.frame = backgroundFrame;
+    self.backgroundView.frame = backgroundFrame;
     
     return currentHeight;
 }
